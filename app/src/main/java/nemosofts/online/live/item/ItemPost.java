@@ -33,10 +33,6 @@ public class ItemPost implements Serializable {
 		return type;
 	}
 
-	public String getSections() {
-		return page;
-	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}

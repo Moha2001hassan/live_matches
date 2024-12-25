@@ -71,8 +71,6 @@ public class AdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         CategoriesHolder(View view) {
             super(view);
             rv = view.findViewById(R.id.rv_home_cat);
-            title = view.findViewById(R.id.tv_home_title);
-            viewAll = view.findViewById(R.id.ll_home_view_all);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             rv.setLayoutManager(linearLayoutManager);
             rv.setItemAnimator(new DefaultItemAnimator());
@@ -89,8 +87,6 @@ public class AdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         EventHolder(View view) {
             super(view);
             rv = view.findViewById(R.id.rv_home_cat);
-            title = view.findViewById(R.id.tv_home_title);
-            viewAll = view.findViewById(R.id.ll_home_view_all);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             rv.setLayoutManager(linearLayoutManager);
             rv.setItemAnimator(new DefaultItemAnimator());
@@ -107,8 +103,6 @@ public class AdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LiveHolder(View view) {
             super(view);
             rv = view.findViewById(R.id.rv_home_cat);
-            title = view.findViewById(R.id.tv_home_title);
-            viewAll = view.findViewById(R.id.ll_home_view_all);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             rv.setLayoutManager(linearLayoutManager);
             rv.setItemAnimator(new DefaultItemAnimator());
@@ -301,18 +295,11 @@ public class AdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        switch (arrayList.get(position).getType()) {
-            case "live":
-                return VIEW_LIVE;
-            case "category":
-                return VIEW_CATEGORIES;
-            case "event":
-                return VIEW_EVENT;
-            case "ads":
-                return VIEW_ADS;
-            default:
-                return VIEW_PROG;
-        }
+        return switch (arrayList.get(position).getType()) {
+            case "event" -> VIEW_EVENT;
+            case "ads" -> VIEW_ADS;
+            default -> VIEW_PROG;
+        };
     }
 
     InterAdListener interAdListener = (position, type) -> {

@@ -41,9 +41,6 @@ import nemosofts.online.live.executor.LoadAbout;
 import nemosofts.online.live.fragment.FragmentDashBoard;
 import nemosofts.online.live.fragment.online.FragmentCategories;
 import nemosofts.online.live.fragment.online.FragmentEvent;
-import nemosofts.online.live.fragment.online.FragmentLatest;
-import nemosofts.online.live.fragment.online.FragmentRecent;
-import nemosofts.online.live.fragment.online.FragmentTrending;
 import nemosofts.online.live.interfaces.AboutListener;
 import nemosofts.online.live.utils.IfSupported;
 import nemosofts.online.live.utils.advertising.AdManagerInterAdmob;
@@ -76,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
 
     ToggleView navHome;
-    ToggleView navEvent;
+    ToggleView navCategories;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         navHome = findViewById(R.id.tv_nav_home);
-        navEvent = findViewById(R.id.tv_nav_event);
-        navEvent.setBadgeText("");
+        navHome.setBadgeText("");
+        navCategories = findViewById(R.id.tv_nav_event);
 
         navClickListener();
         loadDashboardFrag();
@@ -145,15 +142,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void navClickListener() {
-        navEvent.setOnClickListener(view -> {
-            if (!navEvent.isActive()) {
+        navHome.setOnClickListener(view -> {
+            if (!navHome.isActive()) {
                 pageChange(0);
             }
             bottomNavigationView(0);
         });
 
-        navHome.setOnClickListener(view -> {
-            if (!navHome.isActive()) {
+        navCategories.setOnClickListener(view -> {
+            if (!navCategories.isActive()) {
                 pageChange(1);
             }
             bottomNavigationView(1);
@@ -162,11 +159,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadDashboardFrag() {
-        // Change to load FragmentEvent instead of FragmentDashBoard
-        FragmentEvent fragmentEvent = new FragmentEvent();
-        loadFrag(fragmentEvent, getResources().getString(R.string.live_event), fm);
-        navigationView.setCheckedItem(R.id.nav_event); // Set the event menu item as checked by default
-        bottomNavigationView(0); // Ensure the bottom navigation highlights the correct item
+        FragmentDashBoard f1 = new FragmentDashBoard();
+        loadFrag(f1, getResources().getString(R.string.dashboard), fm);
+        navigationView.setCheckedItem(R.id.nav_home);
     }
 
     public void loadFrag(Fragment f1, String name, FragmentManager fm) {
@@ -176,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        if (!name.equals(getString(R.string.live_event))) {
+        if (!name.equals(getString(R.string.dashboard))) {
             ft.hide(fm.getFragments().get(fm.getBackStackEntryCount()));
             ft.add(R.id.fragment, f1, name);
             ft.addToBackStack(name);
@@ -185,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         ft.commit();
 
-        if (getSupportActionBar() != null) {
+        if (getSupportActionBar() != null){
             getSupportActionBar().setTitle(name);
         }
     }
@@ -301,24 +296,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.nav_event) {
-//            FragmentEvent event = new FragmentEvent();
-//            loadFrag(event, getString(R.string.live_event), fm);
-
-            if (!navEvent.isActive()){
+        if (id == R.id.nav_home) {
+            if (!navHome.isActive()){
                 pageChange(0);
             }
             bottomNavigationView(0);
-        } else if (id == R.id.nav_home) {
-            if (!navHome.isActive()) {
-                pageChange(1);
-            }
-            bottomNavigationView(1);
 
+        } else if (id == R.id.nav_event) {
+            FragmentEvent event = new FragmentEvent();
+            loadFrag(event, getString(R.string.live_event), fm);
+            bottomNavigationView(2);
         } else if (id == R.id.nav_category) {
             FragmentCategories category = new FragmentCategories();
             loadFrag(category, getString(R.string.categories), fm);
-            bottomNavigationView(2);
+            bottomNavigationView(1);
         } else if (id == R.id.nav_fav) {
             Intent intent = new Intent(MainActivity.this, PostIDActivity.class);
             intent.putExtra("page_type", getString(R.string.favourite));
@@ -335,12 +326,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void bottomNavigationView(int pos) {
-        if (navHome == null || navEvent == null) {
+        if (navHome == null || navCategories == null) {
             return;
         }
 
         // List of navigation items
-        ToggleView[] navItems = {navEvent, navHome};
+        ToggleView[] navItems = {navHome,navCategories};
 
         if (pos == 2) {
             deactivateAll(navItems);
@@ -430,8 +421,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // Map to hold titles and corresponding NavInfo
                 Map<String, NavInfo> titleToNavInfoMap = new HashMap<>();
 
-                titleToNavInfoMap.put(getString(R.string.latest), new NavInfo(R.id.nav_event, 0));
-                titleToNavInfoMap.put(getString(R.string.nav_home), new NavInfo(R.id.nav_home, 1));
+                titleToNavInfoMap.put(getString(R.string.nav_home), new NavInfo(R.id.nav_home, 0));
+                titleToNavInfoMap.put(getString(R.string.categories), new NavInfo(R.id.nav_category, 1));
 
                 // Update the navigation view and bottom navigation view if the title is in the map
                 NavInfo navInfo = titleToNavInfoMap.get(title);
@@ -454,11 +445,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void pageChange(int bottomNavIndex) {
         if (bottomNavIndex == 0) {
-            FragmentEvent event = new FragmentEvent();
-            loadFrag(event, getString(R.string.live_event), fm);
-        } else if (bottomNavIndex == 1) {
             FragmentDashBoard home = new FragmentDashBoard();
             loadFrag(home, getString(R.string.dashboard), fm);
+        } else if (bottomNavIndex == 1) {
+            FragmentCategories categories = new FragmentCategories();
+            loadFrag(categories, getString(R.string.categories), fm);
         }
     }
 }

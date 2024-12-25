@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +33,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -73,7 +70,6 @@ import java.util.Arrays;
 import nemosofts.online.live.R;
 import nemosofts.online.live.callback.Callback;
 import nemosofts.online.live.callback.Method;
-import nemosofts.online.live.dialog.DialogUtil;
 import nemosofts.online.live.interfaces.InterAdListener;
 import nemosofts.online.live.interfaces.RewardAdListener;
 import nemosofts.online.live.utils.ApplicationUtil;
@@ -941,7 +937,6 @@ public class Helper {
         });
         dialog.findViewById(R.id.btn_bottom_cancel).setOnClickListener(view1 -> dialog.dismiss());
         dialog.findViewById(R.id.ll_checkbox).setOnClickListener(view1 -> cb.setChecked(true, true));
-        dialog.findViewById(R.id.btn_bottom_subscribe).setOnClickListener(v -> DialogUtil.premiumDialog((Activity) ctx));
     }
 
     private boolean isInterAd() {

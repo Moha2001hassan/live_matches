@@ -42,10 +42,9 @@
             android:layout_height="wrap_content"
             app:bt_colorActive="?ns_primary"
             app:bt_colorInactive="?ns_bg_dark"
-            app:bt_active="true"
-            app:bt_icon="@drawable/ic_todo"
+            app:bt_icon="@drawable/ic_folders"
             app:bt_shape="@drawable/transition_bg_menu"
-            app:bt_title="@string/live_event" />
+            app:bt_title="@string/categories" />
 
         <androidx.nemosofts.view.ToggleView
             android:layoutDirection="ltr"
@@ -54,6 +53,7 @@
             android:layout_height="wrap_content"
             app:bt_colorActive="?ns_primary"
             app:bt_colorInactive="?ns_bg_dark"
+            app:bt_active="true"
             app:bt_icon="@drawable/ic_home"
             app:bt_shape="@drawable/transition_bg_menu"
             app:bt_title="@string/nav_home" />

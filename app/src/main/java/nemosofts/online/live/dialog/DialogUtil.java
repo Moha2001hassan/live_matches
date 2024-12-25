@@ -279,46 +279,6 @@ public class DialogUtil {
         }
     }
 
-    public static void trashDialog(Activity activity, DeleteListener listener) {
-        if (dialog != null){
-            dialog = null;
-        }
-        dialog = new Dialog(activity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_app);
-
-        ImageView icon = dialog.findViewById(R.id.iv_dialog_icon);
-        icon.setImageResource(R.drawable.ic_trash);
-
-        TextView title = dialog.findViewById(R.id.tv_dialog_title);
-        title.setText(R.string.delete);
-
-        TextView msg = dialog.findViewById(R.id.tv_dialog_msg);
-        msg.setText(R.string.sure_delete);
-
-        dialog.findViewById(R.id.iv_dialog_close).setOnClickListener(view -> {
-            dialog.dismiss();
-            listener.onCancel();
-        });
-
-        dialog.findViewById(R.id.tv_dialog_no).setOnClickListener(view -> {
-            dialog.dismiss();
-            listener.onCancel();
-        });
-        dialog.findViewById(R.id.tv_dialog_yes).setOnClickListener(view -> {
-            dialog.dismiss();
-            listener.onDelete();
-        });
-
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.dialogAnimation;
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window != null){
-            window.setLayout(MATCH_PARENT, WRAP_CONTENT);
-        }
-    }
-
     public static void verifyDialog(Activity activity, String titleData, String message, CancelListener listener) {
         if (dialog != null){
             dialog = null;
@@ -364,27 +324,6 @@ public class DialogUtil {
         }
     }
 
-    public static void premiumDialog(Activity activity) {
-        if (dialog != null){
-            dialog = null;
-        }
-        dialog = new Dialog(activity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_app_premium);
-        dialog.findViewById(R.id.iv_dialog_close).setOnClickListener(view -> dialog.dismiss());
-//        dialog.findViewById(R.id.tv_dialog_no).setOnClickListener(view -> {
-//            dialog.dismiss();
-//            activity.startActivity(new Intent(activity, BillingSubscribeActivity.class));
-//        });
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.dialogAnimation;
-        dialog.show();
-        Window window = dialog.getWindow();
-        if (window != null){
-            window.setLayout(MATCH_PARENT, WRAP_CONTENT);
-        }
-    }
-
     @OptIn(markerClass = UnstableApi.class)
     public static void dialogPlayerInfo(Activity ctx, ExoPlayer exoPlayer) {
         if (exoPlayer != null){
@@ -420,8 +359,4 @@ public class DialogUtil {
         void onCancel();
     }
 
-    public interface DeleteListener {
-        void onDelete();
-        void onCancel();
-    }
 }
