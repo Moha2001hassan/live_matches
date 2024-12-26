@@ -37,7 +37,7 @@
 
         <androidx.nemosofts.view.ToggleView
             android:layoutDirection="ltr"
-            android:id="@+id/tv_nav_event"
+            android:id="@+id/tv_nav_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:bt_colorActive="?ns_primary"
@@ -48,15 +48,15 @@
 
         <androidx.nemosofts.view.ToggleView
             android:layoutDirection="ltr"
-            android:id="@+id/tv_nav_home"
+            android:id="@+id/tv_nav_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:bt_colorActive="?ns_primary"
             app:bt_colorInactive="?ns_bg_dark"
             app:bt_active="true"
-            app:bt_icon="@drawable/ic_home"
+            app:bt_icon="@drawable/ic_todo"
             app:bt_shape="@drawable/transition_bg_menu"
-            app:bt_title="@string/nav_home" />
+            app:bt_title="@string/live_event" />
 
     </LinearLayout>
 
